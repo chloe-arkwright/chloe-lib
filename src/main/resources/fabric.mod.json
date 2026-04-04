@@ -1,0 +1,6 @@
+{
+	"schemaVersion": 1,
+	"id": "chloe-lib",
+	"version": "${project.version}",
+	"accessWidener": "chloe-lib.classTweaker"
+}

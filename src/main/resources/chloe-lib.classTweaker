@@ -1,0 +1,2 @@
+classTweaker v1 official
+accessible method net/minecraft/core/Holder$Reference bindKey (Lnet/minecraft/resources/ResourceKey;)V
