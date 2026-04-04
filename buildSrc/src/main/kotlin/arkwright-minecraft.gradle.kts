@@ -1,0 +1,121 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+
+plugins {
+	id("arkwright-java")
+	id("net.fabricmc.fabric-loom")
+}
+
+// Build Configuration Flags
+val usesKotlin = findProperty("app.arkwright.kotlin") == "true"
+val usesSplitSources = findProperty("app.arkwright.split-sources") == "true"
+val addDatagens = findProperty("app.arkwright.datagens") == "true"
+
+if (usesKotlin) {
+	apply(plugin = "arkwright-kotlin")
+}
+
+val props = project.extensions.create("props", NonNullPropertyDelegate::class, project.extra)
+
+val projectVersion: String by props
+val projectGroup: String by props
+val projectId: String by props
+
+version = projectVersion
+group = projectGroup
+
+base.archivesName = projectId
+
+loom {
+	accessWidenerPath = file("src/main/resources/$projectId.classTweaker").takeIf(File::exists)
+
+	if (usesSplitSources) {
+		splitEnvironmentSourceSets()
+
+		mods {
+			create(projectId) {
+				sourceSet("main")
+				sourceSet("client")
+			}
+		}
+	}
+
+	runs {
+		named("client") {
+			property("fabric-tag-conventions-v2.missingTagTranslationWarning", "VERBOSE")
+		}
+	}
+}
+
+if (addDatagens) {
+	fabricApi {
+		configureDataGeneration {
+			client = true
+			modId = "$projectId-data"
+			createSourceSet = true
+		}
+	}
+}
+
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth Maven"
+				url = uri("https://api.modrinth.com/maven")
+			}
+		}
+
+		filter {
+			includeGroup("maven.modrinth")
+		}
+	}
+}
+
+val versionMinecraft: String by props
+val versionFabricLoader: String by props
+
+val versionFabricApi = findProperty("version.fabric.api")
+val versionFabricKotlin = findProperty("version.fabric.kotlin")
+
+dependencies {
+	minecraft("com.mojang:minecraft:$versionMinecraft")
+
+	implementation("net.fabricmc:fabric-loader:$versionFabricLoader")
+
+	versionFabricApi?.let { implementation("net.fabricmc.fabric-api:fabric-api:$it") }
+	versionFabricKotlin?.let { implementation("net.fabricmc:fabric-language-kotlin:$it") }
+}
+
+tasks {
+	jar {
+		version = "$projectVersion+$versionMinecraft"
+	}
+
+	tasks.withType<ProcessResources> {
+		inputs.properties(
+			"project" to mapOf(
+				"version" to projectVersion
+			)
+		)
+
+		filesMatching("fabric.mod.json") {
+			expand(inputs.properties)
+		}
+	}
+}
+
+if (usesKotlin && (usesSplitSources || addDatagens)) {
+	extensions.configure<KotlinJvmProjectExtension>("kotlin") {
+		target.compilations.apply {
+			val main by getting
+
+			if (usesSplitSources) {
+				named("client") { associateWith(main) }
+			}
+
+			if (addDatagens) {
+				named("datagen") { associateWith(main) }
+			}
+		}
+	}
+}
