@@ -9,7 +9,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 
 open class BlockEntityRegistration(modId: String) : Registration<BlockEntityType<*>>(modId, Registries.BLOCK_ENTITY_TYPE) {
-	fun <T : BlockEntity> type(key: ResourceKey<BlockEntityType<*>>, blocks: Array<Block>, factory: FabricBlockEntityTypeBuilder.Factory<T>): BlockEntityType<T> {
+	fun <T : BlockEntity> type(
+		key: ResourceKey<BlockEntityType<*>>,
+		blocks: Array<out Block>,
+		factory: FabricBlockEntityTypeBuilder.Factory<T>
+	): BlockEntityType<T> {
 		val type = FabricBlockEntityTypeBuilder.create(factory, *blocks).build()
 
 		type.builtInRegistryHolder().bindKey(key)
