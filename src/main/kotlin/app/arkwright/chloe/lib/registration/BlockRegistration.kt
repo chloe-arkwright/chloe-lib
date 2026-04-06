@@ -5,11 +5,20 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 
-open class BlockRegistration(modId: String) : Registration<Block>(modId, Registries.BLOCK) {
-	fun <T : Block> block(key: ResourceKey<Block>, createBlock: (BlockBehaviour.Properties) -> T, properties: BlockBehaviour.Properties): T {
-		val block = createBlock(properties.setId(key))
+import app.arkwright.chloe.lib.holder
 
-		block.builtInRegistryHolder().bindKey(key)
+open class BlockRegistration(modId: String) : Registration<Block>(modId, Registries.BLOCK) {
+	protected typealias Properties = BlockBehaviour.Properties
+	protected typealias BlockConstructor<T> = (Properties) -> T
+
+	fun <T : Block> block(name: String, properties: Properties, makeBlock: BlockConstructor<T>): T {
+		return block(key(name), properties, makeBlock)
+	}
+
+	fun <T : Block> block(key: ResourceKey<Block>, properties: Properties, makeBlock: BlockConstructor<T>): T {
+		val block = makeBlock(properties.setId(key))
+
+		block.holder().bindKey(key)
 
 		return block
 	}

@@ -2,13 +2,28 @@ package app.arkwright.chloe.lib.registration
 
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
+
+import app.arkwright.chloe.lib.holder
 
 open class ItemRegistration(modId: String) : Registration<Item>(modId, Registries.ITEM) {
-	fun <T : Item> item(key: ResourceKey<Item>, createItem: (Item.Properties) -> T, properties: Item.Properties): T {
-		val item = createItem(properties.setId(key))
+	protected typealias Properties = Item.Properties
+	protected typealias ItemConstructor<T> = (Properties) -> T
 
-		item.builtInRegistryHolder().bindKey(key)
+	fun block(block: Block, properties: Properties, makeItem: (Block) -> ItemConstructor<BlockItem>): BlockItem {
+		return item(castKey(block.holder().key()), properties.useBlockDescriptionPrefix(), makeItem(block))
+	}
+
+	fun <T : Item> item(name: String, properties: Properties, makeItem: ItemConstructor<T>): T {
+		return item(key(name), properties, makeItem)
+	}
+
+	fun <T : Item> item(key: ResourceKey<Item>, properties: Properties, makeItem: ItemConstructor<T>): T {
+		val item = makeItem(properties.setId(key))
+
+		item.holder().bindKey(key)
 
 		return item
 	}
