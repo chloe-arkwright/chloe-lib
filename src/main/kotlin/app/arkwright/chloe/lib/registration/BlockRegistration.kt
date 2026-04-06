@@ -11,11 +11,11 @@ open class BlockRegistration(modId: String) : Registration<Block>(modId, Registr
 	protected typealias Properties = BlockBehaviour.Properties
 	protected typealias BlockConstructor<T> = (Properties) -> T
 
-	fun <T : Block> block(name: String, properties: Properties, makeBlock: BlockConstructor<T>): T {
+	fun <T : Block> block(name: String, properties: Properties = Properties.of(), makeBlock: BlockConstructor<T>): T {
 		return block(key(name), properties, makeBlock)
 	}
 
-	fun <T : Block> block(key: ResourceKey<Block>, properties: Properties, makeBlock: BlockConstructor<T>): T {
+	fun <T : Block> block(key: ResourceKey<Block>, properties: Properties = Properties.of(), makeBlock: BlockConstructor<T>): T {
 		val block = makeBlock(properties.setId(key))
 
 		block.holder().bindKey(key)
