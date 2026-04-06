@@ -19,19 +19,19 @@ open class ItemRegistration(modId: String) : Registration<Item>(modId, Registrie
 		return block(block, properties) { block -> { properties -> BlockItem(block, properties) } }
 	}
 
-	fun <T : BlockItem> block(
-		block: Block,
+	fun <B : Block, I : BlockItem> block(
+		block: B,
 		properties: Properties = Properties(),
-		makeItem: (Block) -> ItemConstructor<T>
-	): T {
+		makeItem: (B) -> ItemConstructor<I>
+	): I {
 		return item(castKey(block.holder().key()), properties.useBlockDescriptionPrefix(), makeItem(block))
 	}
 
-	fun <T : Item> item(name: String, properties: Properties = Properties(), makeItem: ItemConstructor<T>): T {
+	fun <I : Item> item(name: String, properties: Properties = Properties(), makeItem: ItemConstructor<I>): I {
 		return item(key(name), properties, makeItem)
 	}
 
-	fun <T : Item> item(key: ResourceKey<Item>, properties: Properties = Properties(), makeItem: ItemConstructor<T>): T {
+	fun <I : Item> item(key: ResourceKey<Item>, properties: Properties = Properties(), makeItem: ItemConstructor<I>): I {
 		val item = makeItem(properties.setId(key))
 
 		item.holder().bindKey(key)
