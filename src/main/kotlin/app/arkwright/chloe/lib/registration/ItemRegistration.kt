@@ -14,9 +14,16 @@ open class ItemRegistration(modId: String) : Registration<Item>(modId, Registrie
 
 	fun block(
 		block: Block,
-		properties: Properties = Properties(),
-		makeItem: (Block) -> ItemConstructor<BlockItem> = { block -> { properties -> BlockItem(block, properties) } }
+		properties: Properties = Properties()
 	): BlockItem {
+		return block(block, properties) { block -> { properties -> BlockItem(block, properties) } }
+	}
+
+	fun <T : BlockItem> block(
+		block: Block,
+		properties: Properties = Properties(),
+		makeItem: (Block) -> ItemConstructor<T>
+	): T {
 		return item(castKey(block.holder().key()), properties.useBlockDescriptionPrefix(), makeItem(block))
 	}
 

@@ -14,6 +14,10 @@ abstract class Registration<T : Any>(
 
 	protected fun castKey(original: ResourceKey<*>): ResourceKey<T> = ResourceKey.create(registry, original.identifier())
 
+	protected fun register(name: String, value: T): T {
+		return Registry.register(findRegistry(registry), key(name), value)
+	}
+
 	protected fun register(key: ResourceKey<T>, value: T): T {
 		return Registry.register(findRegistry(registry), key, value)
 	}
