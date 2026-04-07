@@ -1,2 +1,4 @@
 classTweaker v1 official
 accessible method net/minecraft/core/Holder$Reference bindKey (Lnet/minecraft/resources/ResourceKey;)V
+
+transitive-accessible method net/minecraft/world/entity/EntityType register (Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/entity/EntityType$Builder;)Lnet/minecraft/world/entity/EntityType;
