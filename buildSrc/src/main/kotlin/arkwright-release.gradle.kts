@@ -1,4 +1,5 @@
 import gradle.kotlin.dsl.accessors._0cb39c16b209519d61ee18b0fceac003.jar
+import gradle.kotlin.dsl.accessors._0cb39c16b209519d61ee18b0fceac003.java
 import me.modmuss50.mpp.ReleaseType
 
 plugins {
@@ -50,6 +51,7 @@ publishMods {
 		curseforge {
 			accessToken = providers.gradleProperty("app.arkwright.chloe.release.curseforge")
 			minecraftVersions.convention(listOf(versionMinecraft))
+			javaVersions.convention(listOf(java.targetCompatibility))
 
 			projectId.convention(curseforgeProjectId as String)
 
