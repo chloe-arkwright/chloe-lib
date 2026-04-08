@@ -2,5 +2,19 @@
 	"schemaVersion": 1,
 	"id": "arkwright-lib",
 	"version": "${project.version}",
-	"accessWidener": "arkwright-lib.classTweaker"
+	"accessWidener": "arkwright-lib.classTweaker",
+	"name": "Arkwright Library",
+	"description": "Some shared code between all my mods.",
+	"authors": [ "Chloe Arkwright" ],
+	"contact": {
+		"sources": "https://github.com/chloe-arkwright/arkwright-lib",
+		"issues": "https://github.com/chloe-arkwright/arkwright-lib/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/arkwright-lib/icon.png",
+	"custom": {
+		"modmenu": {
+			"badges": [ "library" ]
+		}
+	}
 }
