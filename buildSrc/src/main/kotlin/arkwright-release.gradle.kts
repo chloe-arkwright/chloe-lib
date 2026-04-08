@@ -10,6 +10,7 @@ val props: NonNullPropertyDelegate = the()
 val projectVersion: String by props
 val projectName: String by props
 
+val versionMinecraft: String by props
 val versionFabricApi = findProperty("version.fabric.api")
 val versionFabricKotlin = findProperty("version.fabric.kotlin")
 
@@ -17,7 +18,13 @@ publishMods {
 	tasks.jar.orNull?.also { jar ->
 		version = jar.archiveVersion
 		file = jar.archiveFile
-		type = if ("alpha" in projectVersion) ReleaseType.ALPHA else if ("beta" in projectVersion) ReleaseType.BETA else ReleaseType.STABLE
+		type = if ("alpha" in projectVersion) {
+			ReleaseType.ALPHA
+		} else if ("beta" in projectVersion) {
+			ReleaseType.BETA
+		} else {
+			ReleaseType.STABLE
+		}
 		displayName = "$projectName $projectVersion"
 	}
 	modLoaders = listOf("fabric")
@@ -26,7 +33,7 @@ publishMods {
 
 	modrinth {
 		accessToken = providers.gradleProperty("app.arkwright.chloe.release.modrinth")
-		minecraftVersions = listOf("26.1.1")
+		minecraftVersions.convention(listOf(versionMinecraft))
 
 		if (versionFabricApi != null) {
 			requires("fabric-api")
