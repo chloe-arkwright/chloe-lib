@@ -31,16 +31,37 @@ publishMods {
 	changelog = file("changelog.md").readText(Charsets.UTF_8)
 	dryRun = providers.gradleProperty("app.arkwright.chloe.release.dryrun").map { it == "true" }.orElse(true)
 
-	modrinth {
-		accessToken = providers.gradleProperty("app.arkwright.chloe.release.modrinth")
-		minecraftVersions.convention(listOf(versionMinecraft))
+	project.findProperty("project.modrinth.id")?.let { modrinthProjectId ->
+		modrinth {
+			accessToken = providers.gradleProperty("app.arkwright.chloe.release.modrinth")
+			minecraftVersions.convention(listOf(versionMinecraft))
 
-		if (versionFabricApi != null) {
-			requires("fabric-api")
+			projectId.convention(modrinthProjectId as String)
+
+			if (versionFabricApi != null) {
+				requires("fabric-api")
+			}
+
+			if (versionFabricKotlin != null) {
+				requires("fabric-language-kotlin")
+			}
 		}
+	}
 
-		if (versionFabricKotlin != null) {
-			requires("fabric-language-kotlin")
+	project.findProperty("project.curseforge.id")?.let { curseforgeProjectId ->
+		curseforge {
+			accessToken = providers.gradleProperty("app.arkwright.chloe.release.curseforge")
+			minecraftVersions.convention(listOf(versionMinecraft))
+
+			projectId.convention(curseforgeProjectId as String)
+
+			if (versionFabricApi != null) {
+				requires("fabric-api")
+			}
+
+			if (versionFabricKotlin != null) {
+				requires("fabric-language-kotlin")
+			}
 		}
 	}
 }
