@@ -1,4 +1,4 @@
-package app.arkwright.chloe.lib.registration
+package app.arkwright.lib.mc.v1.registration
 
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries

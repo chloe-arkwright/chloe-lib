@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "chloe-lib",
+	"id": "arkwright-lib",
 	"version": "${project.version}",
-	"accessWidener": "chloe-lib.classTweaker"
+	"accessWidener": "arkwright-lib.classTweaker"
 }

@@ -1,4 +1,4 @@
-package app.arkwright.chloe.lib.registration
+package app.arkwright.lib.mc.v1.registration
 
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -6,7 +6,7 @@ import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 
-import app.arkwright.chloe.lib.holder
+import app.arkwright.lib.mc.v1.holder
 
 open class ItemRegistration(modId: String) : Registration<Item>(modId, Registries.ITEM) {
 	protected typealias Properties = Item.Properties

@@ -1,4 +1,4 @@
-package app.arkwright.chloe.lib
+package app.arkwright.lib.mc.v1
 
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
@@ -15,6 +15,7 @@ fun Block.registryKey(): ResourceKey<Block> {
 	return this.properties().blockIdOrThrow()
 }
 
+fun <V : Any> ResourceKey<Registry<V>>.key(id: Identifier): ResourceKey<V> = ResourceKey.create(this, id)
 fun <V : Any> ResourceKey<Registry<V>>.tagKey(id: Identifier): TagKey<V> = TagKey.create(this, id)
 
 @Suppress("DEPRECATION")

@@ -1,11 +1,11 @@
-package app.arkwright.chloe.lib.registration
+package app.arkwright.lib.mc.v1.registration
 
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 
-import app.arkwright.chloe.lib.holder
+import app.arkwright.lib.mc.v1.holder
 
 open class BlockRegistration(modId: String) : Registration<Block>(modId, Registries.BLOCK) {
 	protected typealias Properties = BlockBehaviour.Properties

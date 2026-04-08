@@ -1,5 +1,5 @@
-# Chloe Library
-Just a few utilities which are useful for more than one project. 
+# Arkwright Library
+Just a few utilities which are useful for more than one project.
 
 Feel free to use but please jar in jar and if you want any changes submit a PR instead of adding and releasing your own version.
 

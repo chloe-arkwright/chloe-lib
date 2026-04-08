@@ -1,4 +1,4 @@
-package app.arkwright.chloe.lib.registration
+package app.arkwright.lib.mc.v1.registration
 
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 
-import app.arkwright.chloe.lib.holder
+import app.arkwright.lib.mc.v1.holder
 
 open class BlockEntityRegistration(modId: String) : Registration<BlockEntityType<*>>(modId, Registries.BLOCK_ENTITY_TYPE) {
 	fun <T : BlockEntity> type(

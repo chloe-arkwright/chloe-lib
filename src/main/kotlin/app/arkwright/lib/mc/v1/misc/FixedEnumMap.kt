@@ -1,4 +1,4 @@
-package app.arkwright.chloe.lib.misc
+package app.arkwright.lib.mc.v1.misc
 
 import kotlin.enums.EnumEntries
 
