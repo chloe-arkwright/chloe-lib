@@ -18,3 +18,5 @@ plugins {
 }
 
 rootProject.name = "chloe-lib"
+
+includeBuild("build-logic")
