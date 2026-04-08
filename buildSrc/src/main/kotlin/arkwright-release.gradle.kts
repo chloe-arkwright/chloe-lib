@@ -19,8 +19,6 @@ publishMods {
 		version = jar.archiveVersion
 		file = jar.archiveFile
 		type = if ("alpha" in projectVersion) {
-			ReleaseType.ALPHA
-		} else if ("beta" in projectVersion) {
 			ReleaseType.BETA
 		} else {
 			ReleaseType.STABLE
